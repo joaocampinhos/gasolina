@@ -61,14 +61,9 @@ a:hover {
   color: #ff433d;
 }
 
-.up:before {
-  content: ' ▲';
-}
-
-.down:before {
-  content: ' ▼';
-
-}
+.up:before   { content: ' ▲'; }
+.down:before { content: ' ▼'; }
+.same:before { content: ' ' ; }
 
 @media (min-width: 40em) {
   .sm-left-align { text-align: left }

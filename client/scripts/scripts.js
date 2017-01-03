@@ -35,9 +35,9 @@ fetch('/gas/chart')
       chart.forceX([d.getTime(), maxDate]);
 
       //y
-      chart.yAxis.ticks(10)
-      chart.yAxix.tickFormat(function(d) { return (d) + '€' });
-      chart.forceY([1, 1.8])
+      chart.yAxis.ticks(10);
+      chart.yAxis.tickFormat(function(d) { return (d) + '€' });
+      chart.forceY([1, 1.8]);
 
       //data
       d3.select("svg")
@@ -69,6 +69,7 @@ fetch('/gas/daily')
     if (g95[1] !== 0) {
       if (g95[1] > 0) p95.childNodes[1].classList.add('up');
       else if (g95[1] < 0) p95.childNodes[1].classList.add('down');
+      else p95.childNodes[1].classList.add('same');
       p95.childNodes[1].innerText = `${g95[1]}€`;
     }
 
@@ -80,6 +81,7 @@ fetch('/gas/daily')
     if (g98[1] !== 0) {
       if (g98[1] > 0) p98.childNodes[1].classList.add('up');
       else if (g98[1] < 0) p98.childNodes[1].classList.add('down');
+      else p98.childNodes[1].classList.add('same');
       p98.childNodes[1].innerText = `${g98[1]}€`;
     }
 
@@ -91,6 +93,7 @@ fetch('/gas/daily')
     if (dis[1] !== 0) {
       if (dis[1] > 0) pdis.childNodes[1].classList.add('up');
       else if (dis[1] < 0) pdis.childNodes[1].classList.add('down');
+      else pdis.childNodes[1].classList.add('same');
       pdis.childNodes[1].innerText = `${dis[1]}€`;
     }
   })

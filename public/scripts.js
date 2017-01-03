@@ -5,13 +5,24 @@ require('nvd3');
 
 fetch('/gas/chart')
   .then(r => r.json())
-  .then(raw => raw.filter((el) => el.key === 'Gasolina simples 95' || el.key === 'Gasolina 98' || el.key == 'Gasóleo simples'))
+  .then(raw => raw.filter(el =>
+    el.key === 'Gasolina simples 95' ||
+    el.key === 'Gasolina 98' ||
+    el.key == 'Gasóleo simples')
+  )
   .then(data => {
-    nv.addGraph(function() {
-      var chart = nv.models.lineChart();
+    nv.addGraph(() => {
+      let chart = nv.models.lineChart();
 
+      // customization
       chart.margin({left: 40})
+      chart.color(['#FB8B1E','#668BFC','#FC566A'])
+      chart.showLegend(false);
 
+      //axis
+      //x
+      chart.xScale(d3.time.scale());
+      chart.xAxis.ticks(10);
       chart.xAxis.tickFormat(function(d) {
         const dd = new Date(d);
         if (dd.getDate() !== 1)
@@ -19,32 +30,23 @@ fetch('/gas/chart')
         else
           return d3.time.format('%e%b')(dd)
       });
-
-      //chart.xAxis.ticks(d3.time.days);
-      chart.xAxis.ticks(10);
-      chart.xScale(d3.time.scale());
-
-      //chart.useInteractiveGuideline(true)
-
-      chart.color(['#FB8B1E','#668BFC','#FC566A'])
-
-      chart.showLegend(false);
-
-      chart.forceY([1, 1.8])
       const maxDate = data[0].values[0].x;
       var d = new Date(maxDate)
       var md = d;
       d.setMonth(d.getMonth() - 1);
       chart.forceX([d.getTime(), maxDate]);
 
-      chart.yAxis
-        .ticks(10)
-        .tickFormat(function(d) { return (d) + '€' });
+      //y
+      chart.yAxis.ticks(10);
+      chart.yAxis.tickFormat(function(d) { return (d) + '€' });
+      chart.forceY([1, 1.8]);
 
+      //data
       d3.select("svg")
         .datum(data)
         .transition().duration(500).call(chart);
 
+      //utils
       nv.utils.windowResize(
         function() {
           chart.update();
@@ -69,9 +71,9 @@ fetch('/gas/daily')
     if (g95[1] !== 0) {
       if (g95[1] > 0) p95.childNodes[1].classList.add('up');
       else if (g95[1] < 0) p95.childNodes[1].classList.add('down');
+      else p95.childNodes[1].classList.add('same');
       p95.childNodes[1].innerText = `${g95[1]}€`;
     }
-    console.log(g95);
 
     //Gasolina 98
     const p98 = document.getElementById('g98p');
@@ -81,9 +83,9 @@ fetch('/gas/daily')
     if (g98[1] !== 0) {
       if (g98[1] > 0) p98.childNodes[1].classList.add('up');
       else if (g98[1] < 0) p98.childNodes[1].classList.add('down');
+      else p98.childNodes[1].classList.add('same');
       p98.childNodes[1].innerText = `${g98[1]}€`;
     }
-    console.log(g98);
 
     //Gasóleo
     const pdis = document.getElementById('disp');
@@ -93,18 +95,14 @@ fetch('/gas/daily')
     if (dis[1] !== 0) {
       if (dis[1] > 0) pdis.childNodes[1].classList.add('up');
       else if (dis[1] < 0) pdis.childNodes[1].classList.add('down');
+      else pdis.childNodes[1].classList.add('same');
       pdis.childNodes[1].innerText = `${dis[1]}€`;
     }
-    console.log(dis);
-
-    console.log(data.data);
-    console.log(g95,g98,dis);
   })
   .catch(e => console.log(e))
 
 
-
-}).call(this,require("rH1JPG"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_f4071edb.js","/")
+}).call(this,require("rH1JPG"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_5a66ad69.js","/")
 },{"buffer":3,"d3":4,"nvd3":6,"rH1JPG":7}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
